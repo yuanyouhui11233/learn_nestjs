@@ -9,6 +9,7 @@ export class AppController {
 
   @Get()
   getHello(): { msg: string; name: string; age: number } {
+    console.log('controller');
     const data = this.appService.getHello();
     return {
       msg: data,
