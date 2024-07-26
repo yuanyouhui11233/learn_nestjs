@@ -7,14 +7,20 @@ import {
   Param,
   Delete,
   UseGuards,
+  UseInterceptors,
+  UseFilters,
 } from '@nestjs/common';
 import { LearnAopService } from './learn_aop.service';
 import { CreateLearnAopDto } from './dto/create-learn_aop.dto';
 import { UpdateLearnAopDto } from './dto/update-learn_aop.dto';
 import { LoginGuard } from 'src/login.guard';
+import { TimeInterceptor } from 'src/time.interceptor';
+import { ValidatePipe } from 'src/validate.pipe';
+import { TestFilter } from 'src/test.filter';
 
 @Controller('learn-aop')
-@UseGuards(LoginGuard)
+// @UseGuards(LoginGuard) //路由守卫
+@UseInterceptors(TimeInterceptor)
 export class LearnAopController {
   constructor(private readonly learnAopService: LearnAopService) {}
 
@@ -29,7 +35,8 @@ export class LearnAopController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
+  @UseFilters(TestFilter)
+  findOne(@Param('id', ValidatePipe) id: string) {
     return this.learnAopService.findOne(+id);
   }
 
