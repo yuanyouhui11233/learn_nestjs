@@ -42,4 +42,19 @@ export class LearnAopModule implements NestModule {
  *  nest g guard login --no-spec --flat 使用nest 命令创建路由守卫
  * 路由守卫也分为全局级别/路由级别
  * 返回 false 则 响应 403 没有权限访问
+ *
+ * 3.使用 Interceptor 支持 全局启用 和 单个模块启用
+ * nest g interceptor time --no-spec --flat
+ * @UseInterceptors(TimeInterceptor) 通过 UseInterceptors 装饰器注册使用
+ * 和middleware差不多；但是区别是 interceptor 可以通过 context 上下文拿到 controller 和 handler
+ * 在 controller 和 handler 中 添加 metadata 可以通过 guard 和  interceptor 取出来; middleware 不行
+ *
+ * 4.pipe 管道 用于对参数做一些校验 和 类型的转换
+ * nest g pipe validate --no-spec --flat
+ * 可以对传入的参数值 做参数验证，比如 格式 类型，不正确可以抛出异常。也可以做类型转换，返回转换后的值。
+ * 同样 pipe 可以对某个接口生效 也可以对某个controller 生效 或者全局生效
+ *
+ * 5. ExceptionFilter 对抛出的异常做处理，返回对应的响应
+ * nest g filter test --no-spec --flat
+ * 通用 exceptionFilter 可以应用到某个接口 或者 某个controller 或者 全局
  */
