@@ -57,4 +57,10 @@ export class LearnAopModule implements NestModule {
  * 5. ExceptionFilter 对抛出的异常做处理，返回对应的响应
  * nest g filter test --no-spec --flat
  * 通用 exceptionFilter 可以应用到某个接口 或者 某个controller 或者 全局
+ *
+ * 执行顺序
+ * 在最外层，到了某个路由之后，会先调用 Guard，Guard 用于判断路由有没有权限访问
+ * 然后会调用 Interceptor，对 Contoller 前后扩展一些逻辑
+ * 在到达目标 Controller 之前，还会调用 Pipe 来对参数做检验和转换。
+ * 所有的 HttpException 的异常都会被 ExceptionFilter 处理，返回不同的响应。
  */
