@@ -3,9 +3,10 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { PersonModule } from './person/person.module';
 import { LearnAopModule } from './learn_aop/learn_aop.module';
+import { LearnDecoratorModule } from './learn_decorator/learn_decorator.module';
 
 @Module({
-  imports: [PersonModule, LearnAopModule],
+  imports: [PersonModule, LearnAopModule, LearnDecoratorModule],
   controllers: [AppController],
   providers: [
     AppService,
