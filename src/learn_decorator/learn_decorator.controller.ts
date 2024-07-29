@@ -6,10 +6,14 @@ import {
   Patch,
   Param,
   Delete,
+  Ip,
+  Request,
+  Session,
 } from '@nestjs/common';
 import { LearnDecoratorService } from './learn_decorator.service';
 import { CreateLearnDecoratorDto } from './dto/create-learn_decorator.dto';
 import { UpdateLearnDecoratorDto } from './dto/update-learn_decorator.dto';
+import { Request as ExpRequest } from 'express';
 
 @Controller('learn-decorator')
 export class LearnDecoratorController {
@@ -25,21 +29,34 @@ export class LearnDecoratorController {
     return this.learnDecoratorService.findAll();
   }
 
+  /**
+   * session装饰器的使用
+   * 需要安装
+   * npm install express-session
+   * 在main.ts 引入并使用
+   * @param sesssion
+   * @returns
+   */
+  @Get('/session')
+  session(@Session() sesssion) {
+    if (!sesssion.count) {
+      sesssion.count = 0;
+    }
+    sesssion.count = sesssion.count + 1;
+    console.log(sesssion);
+    return sesssion.count;
+  }
+
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.learnDecoratorService.findOne(+id);
-  }
-
-  @Patch(':id')
-  update(
+  findOne(
     @Param('id') id: string,
-    @Body() updateLearnDecoratorDto: UpdateLearnDecoratorDto,
+    @Ip() ip: string,
+    @Request() req: ExpRequest,
   ) {
-    return this.learnDecoratorService.update(+id, updateLearnDecoratorDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.learnDecoratorService.remove(+id);
+    // 获取IP的方式  @Ip() @Request() 装饰器 ...
+    // IP 分 ipv4 ipv6
+    console.log(ip);
+    console.log(req.ip, 'req');
+    return this.learnDecoratorService.findOne(+id, ip);
   }
 }
