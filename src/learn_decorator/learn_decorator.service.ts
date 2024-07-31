@@ -12,8 +12,8 @@ export class LearnDecoratorService {
     return `This action returns all learnDecorator`;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} learnDecorator`;
+  findOne(id: number, ip: string) {
+    return `This action returns a #${id} learnDecorator;IP:${ip}`;
   }
 
   update(id: number, updateLearnDecoratorDto: UpdateLearnDecoratorDto) {
